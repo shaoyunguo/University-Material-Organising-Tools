@@ -15,16 +15,28 @@ def rename_materials_in_folder(folder_name):
         if os.path.isfile(file_path):
             name, extension = os.path.splitext(file_name)
 
-            if name.startswith('ml') and name[2:].isdigit() :
-                lecture_number = int(name[2:])
-                new_name = f"ML Lecture {lecture_number}{extension}"
+            if name.startswith('.'):  # skip system files
+                continue
+
+            if (folder_name == "Slides" )| (folder_name == "Lectures") :
+                if name.startswith('ml') and name[2:].isdigit():
+                    lecture_number = int(name[2:])
+                    new_name = f"ML Lecture {lecture_number}{extension}"
+                    new_path = os.path.join(folder_path, new_name)
+                    os.rename(file_path, new_path)
+                    print(f"Renamed {file_name} to {new_name}")
+
+            if (folder_name.lower() == "assignments") | (folder_name == "exercise Sheets") :
+                assignment_number = name[11:]
+                new_name = f"ML Assignment {assignment_number}{extension}"
                 new_path = os.path.join(folder_path, new_name)
                 os.rename(file_path, new_path)
-                print (f"Renamed {file_name} to {new_name}")
+                print(f"Renamed {file_name} to {new_name}")
 
 
 def main ():
     rename_materials_in_folder("Slides")
+    rename_materials_in_folder("Assignments")
 
 if __name__ == "__main__":
     main()
