@@ -27,11 +27,13 @@ def rename_materials_in_folder(folder_name):
                     print(f"Renamed {file_name} to {new_name}")
 
             if (folder_name.lower() == "assignments") | (folder_name == "exercise Sheets") :
-                assignment_number = name[11:]
-                new_name = f"ML Assignment {assignment_number}{extension}"
-                new_path = os.path.join(folder_path, new_name)
-                os.rename(file_path, new_path)
-                print(f"Renamed {file_name} to {new_name}")
+                if name.lower().startswith('assignment') and name[11:].isdigit():
+                    assignment_number = name[11:]
+                    new_name = f"ML Assignment {assignment_number}{extension}"
+                    new_path = os.path.join(folder_path, new_name)
+                    os.rename(file_path, new_path)
+                    print(f"Renamed {file_name} to {new_name}")
+
 
 
 def main ():
