@@ -1,7 +1,21 @@
-from pathlib import Path
+#from pathlib import Path
 import os
 
-def rename_materials_in_folder(folder_name):
+def make_new_name(folder_name, file_name, extension):
+    if (folder_name == "Slides") | (folder_name == "Lectures"):
+        if file_name.startswith('ml') and file_name[2:].isdigit():
+            lecture_number = int(file_name[2:])
+            new_name = f"ML Lecture {lecture_number}{extension}"
+
+    if (folder_name.lower() == "assignments") | (folder_name == "exercise Sheets"):
+        if file_name.lower().startswith('assignment') and file_name[11:].isdigit():
+            assignment_number = file_name[11:]
+            new_name = f"ML Assignment {assignment_number}{extension}"
+
+    return new_name
+
+
+def rename_materials_in_folder(folder_name):  # actual renaming
     parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     folder_path = os.path.join(parent_dir, folder_name)
 
@@ -18,22 +32,11 @@ def rename_materials_in_folder(folder_name):
             if name.startswith('.'):  # skip system files
                 continue
 
-            if (folder_name == "Slides" )| (folder_name == "Lectures") :
-                if name.startswith('ml') and name[2:].isdigit():
-                    lecture_number = int(name[2:])
-                    new_name = f"ML Lecture {lecture_number}{extension}"
-                    new_path = os.path.join(folder_path, new_name)
-                    os.rename(file_path, new_path)
-                    print(f"Renamed {file_name} to {new_name}")
-
-            if (folder_name.lower() == "assignments") | (folder_name == "exercise Sheets") :
-                if name.lower().startswith('assignment') and name[11:].isdigit():
-                    assignment_number = name[11:]
-                    new_name = f"ML Assignment {assignment_number}{extension}"
-                    new_path = os.path.join(folder_path, new_name)
-                    os.rename(file_path, new_path)
-                    print(f"Renamed {file_name} to {new_name}")
-
+            if (name.startswith('ml') and name[2:].isdigit())|(name.lower().startswith('assignment') and name[11:].isdigit()) :
+                new_name = make_new_name(folder_name, name, extension)
+                new_path = os.path.join(folder_path, new_name)
+                os.rename(file_path, new_path)
+                print(f"Renamed {file_name} to {new_name}")
 
 
 def main ():
