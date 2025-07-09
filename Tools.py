@@ -2,7 +2,7 @@
 import os
 
 def make_new_name(folder_name, file_name, extension):
-    if (folder_name == "Slides") | (folder_name == "Lectures"):
+    if (folder_name == "Slides") or (folder_name == "Lectures"):
         if file_name.startswith('ml') and file_name[2:].isdigit():
             lecture_number = int(file_name[2:])
             new_name = f"ML Lecture {lecture_number}{extension}"
@@ -14,7 +14,7 @@ def make_new_name(folder_name, file_name, extension):
         else :  # for lectures not named with a number
             new_name = f"ML {file_name}{extension}"
 
-    if (folder_name.lower() == "assignments") | (folder_name == "exercise Sheets"):
+    if (folder_name.lower() == "assignments") or (folder_name.lower() == "exercise sheets"):
         if file_name.lower().startswith('assignment') and file_name[11:].isdigit():
             assignment_number = file_name[11:]
             new_name = f"ML Assignment {assignment_number}{extension}"
@@ -36,7 +36,7 @@ def rename_materials_in_folder(folder_name):  # actual renaming
         if os.path.isfile(file_path):
             name, extension = os.path.splitext(file_name)
 
-            if (name.startswith('.'))| (extension != 'pdf'):  # skip system files and files other than pdf
+            if (name.startswith('.')) or (extension != '.pdf'):  # skip system files and files other than pdf
                 continue
 
             if not name.startswith('ML'):
