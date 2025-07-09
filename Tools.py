@@ -7,7 +7,7 @@ def make_new_name(folder_name, file_name, extension):
             lecture_number = int(file_name[2:])
             new_name = f"ML Lecture {lecture_number}{extension}"
 
-        if file_name.startswith('Lecture'): # previously renamed with a different policy
+        elif file_name.startswith('Lecture'): # previously renamed with a different policy
             lecture_number = int(file_name[8:])
             new_name = f"ML Lecture {lecture_number}{extension}"
 
@@ -36,10 +36,11 @@ def rename_materials_in_folder(folder_name):  # actual renaming
         if os.path.isfile(file_path):
             name, extension = os.path.splitext(file_name)
 
-            if name.startswith('.'):  # skip system files
+            if (name.startswith('.'))| (extension != 'pdf'):  # skip system files and files other than pdf
                 continue
 
             if not name.startswith('ML'):
+                # print("trying to rename"+" "+file_name)
                 new_name = make_new_name(folder_name, name, extension)
                 new_path = os.path.join(folder_path, new_name)
                 os.rename(file_path, new_path)
